@@ -11,7 +11,9 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        builder.Services.AddConfiguration<GetSomethingFunctions.Configuration>();
+        builder.Services
+            .AddConfiguration<GetSomethingFunctions.Configuration>()
+            .AddLogging();
     }
 }
 
