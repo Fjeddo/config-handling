@@ -22,6 +22,6 @@ public class GetSomethingFunctions
 
     public class Configuration
     {
-        public string Header { get; set; }
+        public string Header { get; init; }
     }
 }
