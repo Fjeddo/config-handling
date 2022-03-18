@@ -26,7 +26,7 @@ public class OriginalTimeFunctions
   }
   
   ...
-
+  
   private class Configuration
   {
       public string Header { get; init; }
@@ -37,5 +37,5 @@ public class OriginalTimeFunctions
 The injected instance of IConfguration is used to create an instance of the private nested class `Configuration`. 
 Injection of an instance of IConfiguration comes default, out of the box, when using the DI in .NET.
 
-# The streamlined way
+# The 'streamlined way'
 TBD
