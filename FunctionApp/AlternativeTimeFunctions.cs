@@ -1,21 +1,21 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 
 namespace FunctionApp;
 
-public class GetSomethingFunctions
+public class AlternativeTimeFunctions
 {
     private readonly Configuration _configuration;
 
-    public GetSomethingFunctions(Configuration configuration)
+    public AlternativeTimeFunctions(Configuration configuration)
     {
         _configuration = configuration;
     }
 
-    [FunctionName(nameof(GetLocalTime))]
-    public ActionResult GetLocalTime([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "localtime")] HttpRequest request)
+    [FunctionName(nameof(AltGetLocalTime))]
+    public ActionResult AltGetLocalTime([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "localtime")] HttpRequest request)
     {
         return new OkObjectResult($"{_configuration.Header}: {DateTime.Now}");
     }
