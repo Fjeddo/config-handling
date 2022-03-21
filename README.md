@@ -79,4 +79,39 @@ In this way all configurations are possible to register and it is possible to in
 
 # Unit test, mocking vs real instance
 The streamlined way of handling configuration dependencies comes really handy when implementing unit tests for classes.
-TBD.
+
+The differences are show below, when injecting IConfiguration versus injecting a POCO, in [Tests/SomeTests.cs](Tests/SomeTests.cs):
+```csharp
+[Fact]
+public void Test_injecting_iconfiguration()
+{
+    // Arrange
+    var configuration = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string>()
+    {
+        {"Header", "This is a header"}
+    }).Build();
+
+    var sut = new OriginalTimeFunctions(configuration);
+
+    // Act
+    sut.GetLocalTimeOriginal(HttpRequest);
+
+    // Assert
+    //...
+}
+
+[Fact]
+public void Test_injecting_poco_configuration()
+{
+    // Arrange
+    var configuration = new AlternativeTimeFunctions.Configuration {Header = "This is a header"};
+
+    var sut = new AlternativeTimeFunctions(configuration);
+
+    // Act
+    sut.AltGetLocalTime(HttpRequest);
+
+    //Assert
+    //...
+}
+```
