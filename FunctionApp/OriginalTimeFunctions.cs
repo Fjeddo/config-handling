@@ -21,7 +21,7 @@ public class OriginalTimeFunctions
         return new OkObjectResult($"{_configuration.Header}: {DateTime.Now}");
     }
 
-    public class Configuration
+    private class Configuration
     {
         public string Header { get; init; }
     }
