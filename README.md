@@ -77,7 +77,7 @@ public class Startup : FunctionsStartup
 ```
 In this way all configurations are possible to register and it is possible to inject in classes that need them.
 
-# Unit test, mocking vs real instance
+# Unit test, 'mocking' vs POCO
 The streamlined way of handling configuration dependencies comes really handy when implementing unit tests for classes.
 
 The differences are show below, when injecting IConfiguration versus injecting a POCO, in [Tests/SomeTests.cs](Tests/SomeTests.cs):
