@@ -15,7 +15,7 @@ public class AlternativeTimeFunctions
     }
 
     [FunctionName(nameof(AltGetLocalTime))]
-    public ActionResult AltGetLocalTime([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "localtime")] HttpRequest request)
+    public ActionResult AltGetLocalTime([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{nameof(AlternativeTimeFunctions)}/localtime")] HttpRequest request)
     {
         return new OkObjectResult($"{_configuration.Header}: {DateTime.Now}");
     }

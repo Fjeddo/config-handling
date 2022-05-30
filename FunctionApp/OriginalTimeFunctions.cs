@@ -16,7 +16,7 @@ public class OriginalTimeFunctions
     }
 
     [FunctionName(nameof(GetLocalTimeOriginal))]
-    public ActionResult GetLocalTimeOriginal([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "localtime")] HttpRequest request)
+    public ActionResult GetLocalTimeOriginal([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{nameof(OriginalTimeFunctions)}/localtime")] HttpRequest request)
     {
         return new OkObjectResult($"{_configuration.Header}: {DateTime.Now}");
     }
