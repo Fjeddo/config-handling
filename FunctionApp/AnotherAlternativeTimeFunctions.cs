@@ -18,12 +18,12 @@ public class AnotherAlternativeTimeFunctions
     [FunctionName(nameof(AnotherAlterantiveGetLocalTime))]
     public ActionResult AnotherAlterantiveGetLocalTime([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{nameof(AnotherAlternativeTimeFunctions)}/localtime")] HttpRequest request)
     {
-        return new OkObjectResult($"{_configuration.Text}: {DateTime.Now}");
+        return new OkObjectResult($"{_configuration.Header}: {DateTime.Now}");
     }
 
     public class MyConfigs
     {
-        public string Text { get; init; }
-        public string Title { get; init; }
+        public string Header { get; init; }
+
     }
 }
