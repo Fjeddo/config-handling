@@ -16,11 +16,11 @@ The configuration settings look like this:
 # The 'old way'
 The most common way to make configuration settings available in a class is to, when using the .NET DI, inject an instance of the IConfiguration interface. Have a look in the [FunctionApp/OriginalTimeFunctions.cs](FunctionApp/OriginalTimeFunctions.cs):
 ```csharp
-public class OriginalTimeFunctions
+public class FunctionUsingIConfiguration
 {
   private readonly Configuration _configuration;
 
-  public OriginalTimeFunctions(IConfiguration configuration)
+  public FunctionUsingIConfiguration(IConfiguration configuration)
   {
       _configuration = configuration.Get<Configuration>();
   }
@@ -41,11 +41,11 @@ Injection of an instance of IConfiguration comes default, out of the box, when u
 In this tiny example it may look a litte bit over the top to handle the configuration in any other way, but as the solution grows and there are hundreds of classes, many of which depends on some configuration settings, one might think that there has to be a better way to handle this.
 In the [FunctionApp/OriginalTimeFunctions.cs](FunctionApp/AlternativeTimeFunctions.cs) the injection of IConfiguration is replaced by injection of an instance of the nested Configuration class:
 ```csharp
-public class AlternativeTimeFunctions
+public class FunctionUsingPoco
 {
     private readonly Configuration _configuration;
 
-    public AlternativeTimeFunctions(Configuration configuration)
+    public FunctionUsingPoco(Configuration configuration)
     {
         _configuration = configuration;
     }
@@ -71,7 +71,7 @@ public class Startup : FunctionsStartup
     public override void Configure(IFunctionsHostBuilder builder)
     {
         builder.Services
-            .AddConfiguration<AlternativeTimeFunctions.Configuration>();
+            .AddConfiguration<FunctionUsingPoco.Configuration>();
     }
 }
 ```
@@ -91,27 +91,31 @@ public void Test_injecting_iconfiguration()
         {"Header", "This is a header"}
     }).Build();
 
-    var sut = new OriginalTimeFunctions(configuration);
+    var sut = new FunctionUsingIConfiguration(configuration);
 
     // Act
     sut.GetLocalTimeOriginal(HttpRequest);
 
     // Assert
-    //...
+    actionResult.As<OkObjectResult>()
+        .Value.As<string>()
+        .Should().StartWith("This is a header");
 }
 
 [Fact]
 public void Test_injecting_poco_configuration()
 {
     // Arrange
-    var configuration = new AlternativeTimeFunctions.Configuration {Header = "This is a header"};
+    var configuration = new FunctionUsingPoco.Configuration {Header = "This is a header"};
 
-    var sut = new AlternativeTimeFunctions(configuration);
+    var sut = new FunctionUsingPoco(configuration);
 
     // Act
     sut.AltGetLocalTime(HttpRequest);
 
     //Assert
-    //...
+    actionResult.As<OkObjectResult>()
+        .Value.As<string>()
+        .Should().StartWith("This is a header");
 }
 ```
