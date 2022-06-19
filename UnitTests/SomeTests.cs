@@ -1,6 +1,8 @@
-﻿using FunctionApp;
+﻿using FluentAssertions;
+using FunctionApp;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Xunit;
@@ -20,43 +22,49 @@ namespace UnitTests
                 {"Header", "This is a header"}
             }).Build();
             
-            var sut = new OriginalTimeFunctions(configuration);
+            var sut = new FunctionUsingIConfiguration(configuration);
 
             // Act
-            sut.GetLocalTimeOriginal(HttpRequest);
+            var actionResult = sut.GetLocalTimeOriginal(HttpRequest);
 
             // Assert
-            //...
+            actionResult.As<OkObjectResult>()
+                .Value.As<string>()
+                .Should().StartWith("This is a header");
         }
 
         [Fact]
         public void Test_injecting_poco_configuration()
         {
             // Arrange
-            var configuration = new AlternativeTimeFunctions.Configuration {Header = "This is a header"};
+            var configuration = new FunctionUsingPoco.Configuration {Header = "This is a header"};
 
-            var sut = new AlternativeTimeFunctions(configuration);
+            var sut = new FunctionUsingPoco(configuration);
 
             // Act
-            sut.AltGetLocalTime(HttpRequest);
+            var actionResult = sut.AltGetLocalTime(HttpRequest);
 
             //Assert
-            //...
+            actionResult.As<OkObjectResult>()
+                .Value.As<string>()
+                .Should().StartWith("This is a header");
         }
 
         [Fact]
         public void Test_injecting_ioptions_configuration()
         {
             // Arrange
-            var configuration = Options.Create(new AnotherAlternativeTimeFunctions.MyConfigs {Header = "This is a header"});
+            var configuration = Options.Create(new FunctionUsingIOptions.MyConfigs {Header = "This is a header"});
             
-            var sut = new AnotherAlternativeTimeFunctions(configuration);
+            var sut = new FunctionUsingIOptions(configuration);
 
             // Act
-            sut.AnotherAlterantiveGetLocalTime(HttpRequest);
+            var actionResult = sut.AnotherAlterantiveGetLocalTime(HttpRequest);
 
             // Assert
-            //...
+            actionResult.As<OkObjectResult>()
+                .Value.As<string>()
+                .Should().StartWith("This is a header");
         }
     }
 }

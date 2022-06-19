@@ -6,17 +6,17 @@ using Microsoft.Extensions.Configuration;
 
 namespace FunctionApp;
 
-public class OriginalTimeFunctions
+public class FunctionUsingIConfiguration
 {
     private readonly Configuration _configuration;
 
-    public OriginalTimeFunctions(IConfiguration configuration)
+    public FunctionUsingIConfiguration(IConfiguration configuration)
     {
         _configuration = configuration.Get<Configuration>();
     }
 
     [FunctionName(nameof(GetLocalTimeOriginal))]
-    public ActionResult GetLocalTimeOriginal([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{nameof(OriginalTimeFunctions)}/localtime")] HttpRequest request)
+    public ActionResult GetLocalTimeOriginal([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{nameof(FunctionUsingIConfiguration)}/localtime")] HttpRequest request)
     {
         return new OkObjectResult($"{_configuration.Header}: {DateTime.Now}");
     }

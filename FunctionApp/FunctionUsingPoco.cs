@@ -5,17 +5,17 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 
 namespace FunctionApp;
 
-public class AlternativeTimeFunctions
+public class FunctionUsingPoco
 {
     private readonly Configuration _configuration;
 
-    public AlternativeTimeFunctions(Configuration configuration)
+    public FunctionUsingPoco(Configuration configuration)
     {
         _configuration = configuration;
     }
 
     [FunctionName(nameof(AltGetLocalTime))]
-    public ActionResult AltGetLocalTime([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{nameof(AlternativeTimeFunctions)}/localtime")] HttpRequest request)
+    public ActionResult AltGetLocalTime([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{nameof(FunctionUsingPoco)}/localtime")] HttpRequest request)
     {
         return new OkObjectResult($"{_configuration.Header}: {DateTime.Now}");
     }

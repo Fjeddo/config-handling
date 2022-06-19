@@ -6,17 +6,17 @@ using Microsoft.Extensions.Options;
 
 namespace FunctionApp;
 
-public class AnotherAlternativeTimeFunctions
+public class FunctionUsingIOptions
 {
     private readonly MyConfigs _configuration;
 
-    public AnotherAlternativeTimeFunctions(IOptions<MyConfigs> configuration)
+    public FunctionUsingIOptions(IOptions<MyConfigs> configuration)
     {
         _configuration = configuration.Value;
     }
 
     [FunctionName(nameof(AnotherAlterantiveGetLocalTime))]
-    public ActionResult AnotherAlterantiveGetLocalTime([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{nameof(AnotherAlternativeTimeFunctions)}/localtime")] HttpRequest request)
+    public ActionResult AnotherAlterantiveGetLocalTime([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = $"{nameof(FunctionUsingIOptions)}/localtime")] HttpRequest request)
     {
         return new OkObjectResult($"{_configuration.Header}: {DateTime.Now}");
     }

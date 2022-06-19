@@ -10,8 +10,8 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        builder.Services.AddConfiguration<AlternativeTimeFunctions.Configuration>();
-        builder.Services.AddIOptionsConfiguration<AnotherAlternativeTimeFunctions.MyConfigs>();
+        builder.Services.AddConfiguration<FunctionUsingPoco.Configuration>();
+        builder.Services.AddIOptionsConfiguration<FunctionUsingIOptions.MyConfigs>();
     }
 
     public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
